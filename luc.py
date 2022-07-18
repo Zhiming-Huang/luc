@@ -1,13 +1,19 @@
 import sys
 import pyportus as portus
 
-class LUCFlow():
+
+class MAB:
+    def __init__(self) -> None:
+        pass
+
+
+class LUCFlow:
     INIT_CWND = 10
 
     def __init__(self, datapath, datapath_info):
         self.datapath = datapath
         self.datapath_info = datapath_info
-        self.init_cwnd = float(self.datapath_info.mss * AIMDFlow.INIT_CWND)
+        self.init_cwnd = float(self.datapath_info.mss * LUCFlow.INIT_CWND)
         self.cwnd = self.init_cwnd
         self.datapath.set_program("default", [("Cwnd", int(self.cwnd))])
 
@@ -15,7 +21,7 @@ class LUCFlow():
         if r.loss > 0 or r.sacked > 0:
             self.cwnd /= 2
         else:
-            self.cwnd += (self.datapath_info.mss * (r.acked / self.cwnd))
+            self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
 
         print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight}")
         self.cwnd = max(self.cwnd, self.init_cwnd)
@@ -25,7 +31,7 @@ class LUCFlow():
 class LUC(portus.AlgBase):
     def datapath_programs(self):
         return {
-                "default" : """\
+            "default": """\
                 (def (Report
                     (volatile acked 0)
                     (volatile sacked 0)
@@ -56,6 +62,7 @@ class LUC(portus.AlgBase):
 
     def new_flow(self, datapath, datapath_info):
         return LUCFlow(datapath, datapath_info)
+
 
 alg = LUC()
 
