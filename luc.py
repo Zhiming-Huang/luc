@@ -7,23 +7,46 @@ import pyportus as portus
 
 class LUCFlow:
     INIT_CWND = 10
-
+    Initial_phase = "Initialphase"
+    MAB_phase = "MABphase"
+    
     def __init__(self, datapath, datapath_info):
         self.datapath = datapath
         self.datapath_info = datapath_info
         self.init_cwnd = float(self.datapath_info.mss * LUCFlow.INIT_CWND)
         self.cwnd = self.init_cwnd
         self.datapath.set_program("default", [("Cwnd", int(self.cwnd))])
+        self.phase = LUCFlow.Initial_phase
+        
+        
+        
+        
 
     def on_report(self, r):
-        if r.loss > 0 or r.sacked > 0:
-            self.cwnd /= 2
+        if self.phase == LUCFlow.Initial_phase:
+            if r.loss > 0 or r.sacked > 0:
+                self.cwndbase = self.cwnd / 2
+                self.phase = LUCFlow.MAB_phase
+                self.cwnd = max(self.cwnd, self.init_cwnd)
+                self.num_actions = int((self.cwnd - self.cwndbase) / self.datapath_info.mss)
+                self.MAB = MAB.MAB(self.num_actions)
+                self.action = self.MAB.draw_action()
+                self.cwnd = self.cwndbase  + self.action * self.datapath_info.mss
+            else:
+                self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
+    
+                print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight}")
+                self.cwnd = max(self.cwnd, self.init_cwnd)
+            
         else:
-            self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
-
-        print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight}")
-        self.cwnd = max(self.cwnd, self.init_cwnd)
+            reward = (self.cwnd - r.loss) / self.cwnd
+            self.MAB.update_dist(self.action, reward)
+            self.action = self.MAB.draw_action()
+            self.cwnd = self.cwndbase  + self.action * self.datapath_info.mss
+            
         self.datapath.update_field("Cwnd", int(self.cwnd))
+            
+            
 
 
 class LUC(portus.AlgBase):
