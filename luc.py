@@ -17,34 +17,41 @@ class LUCFlow:
         self.cwnd = self.init_cwnd
         self.datapath.set_program("default", [("Cwnd", int(self.cwnd))])
         self.phase = LUCFlow.Initial_phase
+        self.rttbefore = 0
         
-        
-        
-        
-
     def on_report(self, r):
         if self.phase == LUCFlow.Initial_phase:
             if r.loss > 0 or r.sacked > 0:
+                self.maxcwnd = self.cwnd
                 self.cwndbase = self.cwnd / 2
                 self.phase = LUCFlow.MAB_phase
                 self.cwnd = max(self.cwnd, self.init_cwnd)
-                self.num_actions = int((self.cwnd - self.cwndbase) / self.datapath_info.mss)
+                self.num_actions = int((self.cwnd - self.cwndbase) / (self.datapath_info.mss*10))
                 self.MAB = MAB.MAB(self.num_actions)
+                #print(f"the number of actions {self.num_actions} cwndbase {self.cwndbase}")
                 self.action = self.MAB.draw_action()
-                self.cwnd = self.cwndbase  + self.action * self.datapath_info.mss
+                self.cwnd = self.cwndbase  + self.action * (self.datapath_info.mss * 10)
+                self.lastrtt = r.rtt
+                
             else:
                 self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
-    
-                print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight}")
+                #self.cwnd += self.datapath_info.mss * 2
+                #print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight} cwnd {self.cwnd}")
                 self.cwnd = max(self.cwnd, self.init_cwnd)
+                self.datapath.update_field("Cwnd", int(self.cwnd))
             
         else:
-            reward = (self.cwnd - r.loss) / self.cwnd
+            self.diffrtt = (r.rtt - self.lastrtt) / (10**6)
+            self.lastrtt = r.rtt
+            self.sndrate = r.rate
+            reward = max((r.acked - self.sndrate * self.diffrtt)/ self.maxcwnd,0)
+            #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
             self.MAB.update_dist(self.action, reward)
             self.action = self.MAB.draw_action()
-            self.cwnd = self.cwndbase  + self.action * self.datapath_info.mss
+            self.cwnd = self.cwndbase  + self.action * (self.datapath_info.mss*10)
+            #print(f"the action: {self.action} the reward:{reward} the t {self.MAB.t} the cwnd: {self.cwnd} the probability {self.MAB.p}")
             
-        self.datapath.update_field("Cwnd", int(self.cwnd))
+            self.datapath.update_field("Cwnd", int(self.cwnd))
             
             
 
@@ -60,6 +67,7 @@ class LUC(portus.AlgBase):
                     (volatile timeout false)
                     (volatile rtt 0)
                     (volatile inflight 0)
+                    (volatile rate 0)
                 ))
                 (when true
                     (:= Report.inflight Flow.packets_in_flight)
@@ -68,11 +76,8 @@ class LUC(portus.AlgBase):
                     (:= Report.sacked (+ Report.sacked Ack.packets_misordered))
                     (:= Report.loss Ack.lost_pkts_sample)
                     (:= Report.timeout Flow.was_timeout)
+                    (:= Report.rate Flow.rate_outgoing)
                     (fallthrough)
-                )
-                (when (|| Report.timeout (> Report.loss 0))
-                    (report)
-                    (:= Micros 0)
                 )
                 (when (> Micros Flow.rtt_sample_us)
                     (report)
