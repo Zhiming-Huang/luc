@@ -58,7 +58,7 @@ fig.savefig('./results/homoflow_thru_h1.eps', format='eps', bbox_inches='tight',
     
 ############plot for h2
 fig, ax = plt.subplots()
-ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'CCP')
+ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'LUC')
 ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
 ax.plot(dfcubic2['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')

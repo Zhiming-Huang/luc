@@ -64,7 +64,7 @@ fig.savefig('./results/Park_homoflow_thru_h1.eps', format='eps', bbox_inches='ti
     
 ############plot for h2
 fig, ax = plt.subplots()
-ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'CCP')
+ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'LUC')
 ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
 ax.plot(dfcubic2['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
@@ -75,7 +75,7 @@ fig.savefig('./results/Park_homoflow_thru_h2.eps', format='eps', bbox_inches='ti
 
 ############plot for h3
 fig, ax = plt.subplots()
-ax.plot(dfccp3['throughput'].ewm(com=10).mean(), '-',  label = 'CCP')
+ax.plot(dfccp3['throughput'].ewm(com=10).mean(), '-',  label = 'LUC')
 ax.plot(dfbbr3['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
 ax.plot(dfcubic3['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
