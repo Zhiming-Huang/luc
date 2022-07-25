@@ -34,8 +34,8 @@ class LUCFlow:
                 self.lastrtt = r.rtt
                 
             else:
-                self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
-                #self.cwnd += self.datapath_info.mss * 2
+                #self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
+                self.cwnd += self.datapath_info.mss * 2
                 #print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight} cwnd {self.cwnd}")
                 self.cwnd = max(self.cwnd, self.init_cwnd)
                 self.datapath.update_field("Cwnd", int(self.cwnd))
@@ -45,7 +45,7 @@ class LUCFlow:
             self.lastrtt = r.rtt
             self.sndrate = r.rate
             reward = max((r.acked - self.sndrate * self.diffrtt)/ self.maxcwnd,0)
-            #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
+            print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
             self.MAB.update_dist(self.action, reward)
             self.action = self.MAB.draw_action()
             self.cwnd = self.cwndbase  + self.action * (self.datapath_info.mss*10)

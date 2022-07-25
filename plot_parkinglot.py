@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jul 20 19:45:17 2022
+
+@author: zhiming
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+import seaborn as sns
+import re
+
+
+def read_iperf(filename):
+    bandwith = []
+    cwnd = []
+    rtt = []
+    with open(filename) as fp_in:
+        for i, line in enumerate(fp_in):
+            if i >= 7:
+                try:
+                    
+                    bandwith.append(float(re.findall(r"\d+", line.split('  ')[3])[0]))
+                except:
+                    bandwith.append(line.split(' ')[9])
+                cwnd.append(int(line.split(' ')[-4].split('/')[0][0:-1]))
+                rtt.append(int(line.split(' ')[-4].split('/')[1])/1000)
+    bandwith.pop(-1)
+    cwnd.pop(-1)
+    rtt.pop(-1)
+    dic = {'throughput': bandwith, 'cwnd':cwnd, 'rtt':rtt}
+    return pd.DataFrame(dic)
+
+
+################################### Scenario 1 #########################
+dfccp1 = read_iperf('./logs/parking_ccp1.log')
+dfccp2 = read_iperf('./logs/parking_ccp2.log')
+dfccp3 = read_iperf('./logs/parking_ccp3.log')
+
+dfbbr1 = read_iperf('./logs/parking_bbr1.log')
+dfbbr2 = read_iperf('./logs/parking_bbr2.log')
+dfbbr3 = read_iperf('./logs/parking_bbr3.log')
+
+dfcubic1 = read_iperf('./logs/parking_cubic1.log')
+dfcubic2 = read_iperf('./logs/parking_cubic2.log')
+dfcubic3 = read_iperf('./logs/parking_cubic3.log')
+
+#sns.set('whitegrid')
+
+###################Throughput  1################################
+#############plot for h1
+fig, ax = plt.subplots()
+ax.plot(dfccp1['throughput'].ewm(com=10).mean(), '-', label = 'LUC')
+ax.plot(dfbbr1['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic1['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_thru_h1.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+############plot for h2
+fig, ax = plt.subplots()
+ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'CCP')
+ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic2['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_thru_h2.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+
+############plot for h3
+fig, ax = plt.subplots()
+ax.plot(dfccp3['throughput'].ewm(com=10).mean(), '-',  label = 'CCP')
+ax.plot(dfbbr3['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic3['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_thru_h3.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+
+################### RTT  1 ################################
+#############plot for h1
+fig, ax = plt.subplots()
+ax.plot(dfccp1['rtt'].ewm(com=10).mean(), '-', label = 'LUC')
+ax.plot(dfbbr1['rtt'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic1['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_rtt_h1.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+############plot for h2
+fig, ax = plt.subplots()
+ax.plot(dfccp2['rtt'].ewm(com=10).mean(), '-',  label = 'LUC')
+ax.plot(dfbbr2['rtt'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic2['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_rtt_h2.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+
+############plot for h4
+fig, ax = plt.subplots()
+ax.plot(dfccp3['rtt'].ewm(com=10).mean(), '-',  label = 'LUC')
+ax.plot(dfbbr3['rtt'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfcubic3['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_homoflow_rtt_h4.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+
+################################### Scenario 2 #########################
+dfbackccp1 = read_iperf('./logs/parking_backccp_ccp.log')
+dfbackccp2 = read_iperf('./logs/parking_backccp_cubic.log')
+dfbackccp3 = read_iperf('./logs/parking_backccp_bbr.log')
+
+dfbackbbr1 = read_iperf('./logs/parking_backbbr_bbr.log')
+dfbackbbr2 = read_iperf('./logs/parking_backbbr_cubic.log')
+dfbackbbr3 = read_iperf('./logs/parking_backbbr_ccp.log')
+
+dfbackcubic1 = read_iperf('./logs/parking_backcubic_cubic.log')
+dfbackcubic2 = read_iperf('./logs/parking_backcubic_bbr.log')
+dfbackcubic3 = read_iperf('./logs/parking_backcubic_ccp.log')
+
+
+###################Throughput  2################################
+#############plot for luc ######
+fig, ax = plt.subplots()
+ax.plot(dfbackccp1['throughput'].ewm(com=10).mean(), '-', label = 'h1 (LUC)', color = 'tab:blue')
+ax.plot(dfbackccp2['throughput'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)',  color ='tab:green')
+ax.plot(dfbackccp3['throughput'].ewm(com=10).mean(), '-.', label = 'h4 (BBR)', color ='tab:orange')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_thru_ccp.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+#############plot for bbr######
+fig, ax = plt.subplots()
+ax.plot(dfbackbbr1['throughput'].ewm(com=10).mean(), '-.', label = 'h1 (BBR)', color = 'tab:orange')
+ax.plot(dfbackbbr2['throughput'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
+ax.plot(dfbackbbr3['throughput'].ewm(com=10).mean(), '-', label = 'h4 (LUC)', color ='tab:blue')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_thru_bbr.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+#############plot for cubic######
+fig, ax = plt.subplots()
+ax.plot(dfbackcubic1['throughput'].ewm(com=10).mean(), '--', label = 'h1 (CUBIC)',  color = 'tab:green')
+ax.plot(dfbackcubic2['throughput'].ewm(com=10).mean(), '-.', label = 'h2 (BBR)', color ='tab:orange')
+ax.plot(dfbackcubic3['throughput'].ewm(com=10).mean(), '-', label = 'h4 (LUC)', color ='tab:blue')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('Throughput (Mbps)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_thru_cubic.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+
+
+###################RTT  2################################
+#############plot for luc ######
+fig, ax = plt.subplots()
+ax.plot(dfbackccp1['rtt'].ewm(com=10).mean(), '-', label = 'h1 (LUC)', color = 'tab:blue')
+ax.plot(dfbackccp2['rtt'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)',  color ='tab:green')
+ax.plot(dfbackccp3['rtt'].ewm(com=10).mean(), '-.', label = 'h4 (BBR)', color ='tab:orange')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_rtt_ccp.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+#############plot for bbr######
+fig, ax = plt.subplots()
+ax.plot(dfbackbbr1['rtt'].ewm(com=10).mean(), '-.', label = 'h1 (BBR)', color = 'tab:orange')
+ax.plot(dfbackbbr2['rtt'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
+ax.plot(dfbackbbr3['rtt'].ewm(com=10).mean(), '-', label = 'h4 (LUC)', color ='tab:blue')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_rtt_bbr.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
+    
+#############plot for cubic######
+fig, ax = plt.subplots()
+ax.plot(dfbackcubic1['rtt'].ewm(com=10).mean(), '--', label = 'h1 (CUBIC)',  color = 'tab:green')
+ax.plot(dfbackcubic2['rtt'].ewm(com=10).mean(), '-.', label = 'h2 (BBR)', color ='tab:orange')
+ax.plot(dfbackcubic3['rtt'].ewm(com=10).mean(), '-', label = 'h4 (LUC)', color ='tab:blue')
+ax.set_xlabel('Duration (s)')
+ax.set_ylabel('RTT (ms)')
+ax.grid(True)
+ax.legend()
+fig.savefig('./results/Park_heteflow_rtt_cubic.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
