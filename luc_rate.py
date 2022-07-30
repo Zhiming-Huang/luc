@@ -10,24 +10,28 @@ class LUCFlow:
         self.datapath = datapath
         self.datapath_info = datapath_info
         #self.init_cwnd = 10 * datapath_info.mss
-        self.cwndset = [70000 * i for i in range(5,11)]
+        #self.cwndset = [70000 * i for i in range(4,10)]
+        #self.cwndset = [100000+ 70000 * i for i in range(9)]
+        #self.cwndset = [400000 + 50000* i for i in range(5)]
+        #self.cwndset = [400000 + 50000* i for i in range(6)]
         #print(self.cwndset)
+        self.cwndset = list(range(200000,700000,50000))
         self.maxcwnd = self.cwndset[-1]
         self.MAB = MAB.MAB(len(self.cwndset))
         self.action = self.MAB.draw_action()
         self.cwnd = self.cwndset[self.action]
-        #print(self.cwnd)
+       
         self.datapath.set_program("default", [("Cwnd", int(self.cwnd))])
         
     def on_report(self, r):
         #print(f"the ack: {r.acked} the loss:{r.loss}")
-        reward = max((self.cwnd- r.loss)/ self.maxcwnd,0)
+        reward = max((r.acked- r.loss)/ self.maxcwnd,0)
         #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
         self.MAB.update_dist(self.action, reward)
         self.action = self.MAB.draw_action()
         self.cwnd = self.cwndset[self.action]
         #print(f"the reward {reward} the cwnd: {self.cwnd} the dis {self.MAB.p}")
-        
+        #print(self.cwnd)
         self.datapath.update_field("Cwnd", int(self.cwnd))
             
             

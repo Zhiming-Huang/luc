@@ -53,9 +53,9 @@ def perfTest(num = 0):
         h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z ccp -i 1 -t 30 -e > ./logs/ccp2.log &')
 
     if num == 1:
-        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z bbr -i 1 -t 30 -e > ./logs/bbr1.log &')
+        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr1.log &')
 
-        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr -i 1 -t 30 -e > ./logs/bbr2.log &')
+        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr2.log &')
  
     if num == 2:
         h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z cubic -i 1 -t 30 -e > ./logs/cubic1.log &')
@@ -63,17 +63,17 @@ def perfTest(num = 0):
         h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2.log &')
  
     if num == 3:
-        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1bbr2.log &')
+        h2.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1bbr2.log &')
 
-        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr -i 1 -t 30 -e > ./logs/bbr2ccp1.log &')
+        h1.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr2ccp1.log &')
         
     if num == 4:
-        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1cubic2.log &')
+        h2.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1cubic2.log &')
 
-        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2ccp1.log &')
+        h1.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2ccp1.log &')
         
     if num == 5:
-        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z bbr -i 1 -t 30 -e > ./logs/bbr1cubic2.log &')
+        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr1cubic2.log &')
 
         h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2bbr1.log &')
         

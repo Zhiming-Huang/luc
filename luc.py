@@ -21,8 +21,9 @@ class LUCFlow:
         
     def on_report(self, r):
         if self.phase == LUCFlow.Initial_phase:
-            if r.loss > 0 or r.sacked > 0:
+            if r.loss > 0:
                 self.maxcwnd = self.cwnd
+                print(self.maxcwnd)
                 self.cwndbase = self.cwnd / 2
                 self.phase = LUCFlow.MAB_phase
                 self.cwnd = max(self.cwnd, self.init_cwnd)
@@ -30,25 +31,25 @@ class LUCFlow:
                 self.MAB = MAB.MAB(self.num_actions)
                 #print(f"the number of actions {self.num_actions} cwndbase {self.cwndbase}")
                 self.action = self.MAB.draw_action()
-                self.cwnd = self.cwndbase  + self.action * (self.datapath_info.mss * 10)
-                self.lastrtt = r.rtt
+                self.cwnd = self.cwndbase  + (self.action + 1) * (self.datapath_info.mss * 10)
+                #self.lastrtt = r.rtt
                 
             else:
                 #self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
-                self.cwnd += self.datapath_info.mss * 2
+                self.cwnd = self.cwnd * 2
                 #print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight} cwnd {self.cwnd}")
                 self.cwnd = max(self.cwnd, self.init_cwnd)
-                self.datapath.update_field("Cwnd", int(self.cwnd))
+            self.datapath.update_field("Cwnd", int(self.cwnd))
             
         else:
-            self.diffrtt = (r.rtt - self.lastrtt) / (10**6)
-            self.lastrtt = r.rtt
-            self.sndrate = r.rate
-            reward = max((r.acked - self.sndrate * self.diffrtt)/ self.maxcwnd,0)
-            print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
+            #self.diffrtt = (r.rtt - self.lastrtt) / (10**6)
+            #self.lastrtt = r.rtt
+            #self.sndrate = r.rate
+            reward = max((r.acked - r.loss)/ self.maxcwnd,0)
+            #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
             self.MAB.update_dist(self.action, reward)
             self.action = self.MAB.draw_action()
-            self.cwnd = self.cwndbase  + self.action * (self.datapath_info.mss*10)
+            self.cwnd = self.cwndbase  + (self.action + 1) * (self.datapath_info.mss*10)
             #print(f"the action: {self.action} the reward:{reward} the t {self.MAB.t} the cwnd: {self.cwnd} the probability {self.MAB.p}")
             
             self.datapath.update_field("Cwnd", int(self.cwnd))

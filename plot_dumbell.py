@@ -48,10 +48,11 @@ dfcubic2 = read_iperf('./logs/cubic2.log')
 #############plot for h1
 fig, ax = plt.subplots()
 ax.plot(dfccp1['throughput'].ewm(com=10).mean(), '-', label = 'LUC')
-ax.plot(dfbbr1['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfbbr1['throughput'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic1['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('Throughput (Mbps)')
+ax.set_ylim([30,80])
 ax.grid(True)
 ax.legend()
 fig.savefig('./results/homoflow_thru_h1.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
@@ -59,10 +60,11 @@ fig.savefig('./results/homoflow_thru_h1.eps', format='eps', bbox_inches='tight',
 ############plot for h2
 fig, ax = plt.subplots()
 ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'LUC')
-ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic2['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('Throughput (Mbps)')
+ax.set_ylim([30,80])
 ax.grid(True)
 ax.legend()
 fig.savefig('./results/homoflow_thru_h2.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
@@ -72,7 +74,7 @@ fig.savefig('./results/homoflow_thru_h2.eps', format='eps', bbox_inches='tight',
 #############plot for h1
 fig, ax = plt.subplots()
 ax.plot(dfccp1['rtt'].ewm(com=10).mean(), '-', label = 'LUC')
-ax.plot(dfbbr1['rtt'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfbbr1['rtt'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic1['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('RTT (ms)')
@@ -83,7 +85,7 @@ fig.savefig('./results/homoflow_rtt_h1.eps', format='eps', bbox_inches='tight',d
 ############plot for h2
 fig, ax = plt.subplots()
 ax.plot(dfccp2['rtt'].ewm(com=10).mean(), '-',  label = 'LUC')
-ax.plot(dfbbr2['rtt'].ewm(com=10).mean(), '-.', label = 'BBR')
+ax.plot(dfbbr2['rtt'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic2['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('RTT (ms)')
@@ -103,7 +105,7 @@ dfcubic2bbr1 = read_iperf('./logs/cubic2bbr1.log')
 #############plot for ccp and bbr ######
 fig, ax = plt.subplots()
 ax.plot(dfccp1bbr2['throughput'].ewm(com=10).mean(), '-', label = 'h1 (LUC)')
-ax.plot(dfbbr2ccp1['throughput'].ewm(com=10).mean(), '-.', label = 'h2 (BBR)')
+ax.plot(dfbbr2ccp1['throughput'].ewm(com=10).mean(), '-.', label = 'h2 (BBR2)')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('Throughput (Mbps)')
 ax.grid(True)
@@ -122,7 +124,7 @@ fig.savefig('./results/heteflow_thru_ccpcubic.eps', format='eps', bbox_inches='t
     
 #############plot for ccp and cubic ######
 fig, ax = plt.subplots()
-ax.plot(dfbbr1cubic2['throughput'].ewm(com=10).mean(), '-.', label = 'h1 (BBR)',  color = 'tab:orange')
+ax.plot(dfbbr1cubic2['throughput'].ewm(com=10).mean(), '-.', label = 'h1 (BBR2)',  color = 'tab:orange')
 ax.plot(dfcubic2bbr1['throughput'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('Throughput (Mbps)')
@@ -135,7 +137,7 @@ fig.savefig('./results/heteflow_thru_bbrcubic.eps', format='eps', bbox_inches='t
 #############plot for ccp and bbr ######
 fig, ax = plt.subplots()
 ax.plot(dfccp1bbr2['rtt'].ewm(com=10).mean(), '-', label = 'h1 (LUC)')
-ax.plot(dfbbr2ccp1['rtt'].ewm(com=10).mean(), '-.', label = 'h2 (BBR)')
+ax.plot(dfbbr2ccp1['rtt'].ewm(com=10).mean(), '-.', label = 'h2 (BBR2)')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('RTT (ms)')
 ax.grid(True)
@@ -154,7 +156,7 @@ fig.savefig('./results/heteflow_rtt_ccpcubic.eps', format='eps', bbox_inches='ti
     
 #############plot for ccp and cubic ######
 fig, ax = plt.subplots()
-ax.plot(dfbbr1cubic2['rtt'].ewm(com=10).mean(), '-.', label = 'h1 (BBR)',  color = 'tab:orange')
+ax.plot(dfbbr1cubic2['rtt'].ewm(com=10).mean(), '-.', label = 'h1 (BBR2)',  color = 'tab:orange')
 ax.plot(dfcubic2bbr1['rtt'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
 ax.set_xlabel('Duration (s)')
 ax.set_ylabel('RTT (ms)')

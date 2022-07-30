@@ -16,7 +16,7 @@ class SingleSwitchTopo( Topo ):
     	    # Each host gets 50%/n of system CPU
     	    host = self.addHost( 'h%s' % (h + 1) )
     	    # 10 Mbps, 5ms delay, 2% loss, 1000 packet queue
-    	    self.addLink( host, switch, bw=100, delay='5ms', loss=0,
+    	    self.addLink( host, switch, bw=100, delay='15ms', loss=0,
                               max_queue_size=1000, use_htb=True )
 
 def perfTest():
