@@ -9,13 +9,15 @@ class LUCFlow:
     def __init__(self, datapath, datapath_info):
         self.datapath = datapath
         self.datapath_info = datapath_info
+        self.rttbefore = 0
         #self.init_cwnd = 10 * datapath_info.mss
-        #self.cwndset = [70000 * i for i in range(4,10)]
-        #self.cwndset = [100000+ 70000 * i for i in range(9)]
+        #self.cwndset = [70000 * i for i in range(5,11)]
+        #self.cwndset = [35000 * i for i in range(4,13)]        #self.cwndset = [100000+ 70000 * i for i in range(9)]
+        self.cwndset = [34000 * i for i in range(4,13)]  
         #self.cwndset = [400000 + 50000* i for i in range(5)]
         #self.cwndset = [400000 + 50000* i for i in range(6)]
         #print(self.cwndset)
-        self.cwndset = list(range(200000,700000,50000))
+        #self.cwndset = list(range(200000,700000,50000))
         self.maxcwnd = self.cwndset[-1]
         self.MAB = MAB.MAB(len(self.cwndset))
         self.action = self.MAB.draw_action()
@@ -24,8 +26,14 @@ class LUCFlow:
         self.datapath.set_program("default", [("Cwnd", int(self.cwnd))])
         
     def on_report(self, r):
+        if self.rttbefore == 0:
+            self.rttbefore = r.rtt
         #print(f"the ack: {r.acked} the loss:{r.loss}")
-        reward = max((r.acked- r.loss)/ self.maxcwnd,0)
+            reward = max((self.cwnd -  r.loss)/ self.maxcwnd,0)
+        else:
+            rttdiff = r.rtt - self.rttbefore
+            reward = max((self.cwnd - self.cwnd/self.rttbefore * rttdiff - self.datapath_info.mss* r.loss)/ self.maxcwnd,0)
+            self.rttbefore = r.rtt
         #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
         self.MAB.update_dist(self.action, reward)
         self.action = self.MAB.draw_action()

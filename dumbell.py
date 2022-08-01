@@ -12,8 +12,8 @@ from time import sleep
 class SingleSwitchTopo( Topo ):
     "Single switch connected to n hosts."
     def build( self, n=4 ):
-        linkopts = dict(bw=100, delay='10ms', loss = 0, max_queue_size=100)
-        linkopts2 = dict(bw=100, delay='10ms', loss = 0)
+        linkopts = dict(bw=50, delay='10ms', loss = 0, max_queue_size=100)
+        linkopts2 = dict(bw=50, delay='10ms', loss = 0)
         switch1 = self.addSwitch( 's1' )
         switch2 = self.addSwitch('s2')
         self.addLink(switch1, switch2, **linkopts)    
@@ -63,14 +63,14 @@ def perfTest(num = 0):
         h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2.log &')
  
     if num == 3:
-        h2.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1bbr2.log &')
+        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1bbr2.log &')
 
-        h1.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr2ccp1.log &')
+        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr2ccp1.log &')
         
     if num == 4:
-        h2.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1cubic2.log &')
+        h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z ccp -i 1 -t 30 -e > ./logs/ccp1cubic2.log &')
 
-        h1.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2ccp1.log &')
+        h2.sendCmd('iperf -c 10.0.0.4 -p 5001 -Z cubic -i 1 -t 30 -e > ./logs/cubic2ccp1.log &')
         
     if num == 5:
         h1.sendCmd('iperf -c 10.0.0.3 -p 5000 -Z bbr2 -i 1 -t 30 -e > ./logs/bbr1cubic2.log &')
