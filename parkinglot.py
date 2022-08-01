@@ -23,9 +23,9 @@ class SingleSwitchTopo( Topo ):
              Node_2           Node_4       Node_6
 """
     def build( self, n=6 ):
-        linkopts = dict(bw=100, delay='10ms', loss = 0, max_queue_size=100)
-        linkopts2 = dict(bw=100, delay='10ms', loss = 0)
-        linkopts3 = dict(bw=100, delay='5ms', loss = 0)
+        linkopts = dict(bw=50, delay='10ms', loss = 0, max_queue_size=100)
+        linkopts2 = dict(bw=50, delay='10ms', loss = 0)
+        linkopts3 = dict(bw=50, delay='5ms', loss = 0)
         switch1 = self.addSwitch( 's1' )
         switch2 = self.addSwitch('s2')
         switch3 = self.addSwitch('s3')
