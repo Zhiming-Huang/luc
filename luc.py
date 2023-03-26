@@ -23,7 +23,7 @@ class LUCFlow:
         if self.phase == LUCFlow.Initial_phase:
             if r.loss > 0:
                 self.maxcwnd = self.cwnd
-                print(self.maxcwnd)
+                #print(self.maxcwnd)
                 self.cwndbase = self.cwnd / 2
                 self.phase = LUCFlow.MAB_phase
                 self.cwnd = max(self.cwnd, self.init_cwnd)
@@ -35,8 +35,8 @@ class LUCFlow:
                 #self.lastrtt = r.rtt
                 
             else:
-                #self.cwnd += self.datapath_info.mss * (r.acked / self.cwnd)
-                self.cwnd = self.cwnd * 2
+                self.cwnd += self.datapath_info.mss * 1.5 * (r.acked / self.cwnd)
+                #self.cwnd = self.cwnd * 1.5
                 #print(f"acked {r.acked} rtt {r.rtt} inflight {r.inflight} cwnd {self.cwnd}")
                 self.cwnd = max(self.cwnd, self.init_cwnd)
             self.datapath.update_field("Cwnd", int(self.cwnd))
@@ -45,7 +45,14 @@ class LUCFlow:
             #self.diffrtt = (r.rtt - self.lastrtt) / (10**6)
             #self.lastrtt = r.rtt
             #self.sndrate = r.rate
-            reward = max((r.acked - r.loss)/ self.maxcwnd,0)
+            if self.rttbefore == 0:
+                self.rttbefore = r.rtt
+        #print(f"the ack: {r.acked} the loss:{r.loss}")
+                reward = max((self.cwnd -  r.loss)/ self.maxcwnd,0)
+            else:
+                rttdiff = r.rtt - self.rttbefore
+                reward = max((self.cwnd - 10*self.cwnd/self.rttbefore * rttdiff - 100*self.datapath_info.mss* r.loss)/ self.maxcwnd,0)
+                self.rttbefore = r.rtt
             #print(f"the action: {self.action} the rtt diff: {self.diffrtt} the reward:{reward} rate:{self.sndrate}")
             self.MAB.update_dist(self.action, reward)
             self.action = self.MAB.draw_action()

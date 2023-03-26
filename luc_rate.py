@@ -10,14 +10,7 @@ class LUCFlow:
         self.datapath = datapath
         self.datapath_info = datapath_info
         self.rttbefore = 0
-        #self.init_cwnd = 10 * datapath_info.mss
-        #self.cwndset = [70000 * i for i in range(5,11)]
-        #self.cwndset = [35000 * i for i in range(4,13)]        #self.cwndset = [100000+ 70000 * i for i in range(9)]
-        self.cwndset = [34000 * i for i in range(7,12)]  
-        #self.cwndset = [400000 + 50000* i for i in range(5)]
-        #self.cwndset = [400000 + 50000* i for i in range(6)]
-        #print(self.cwndset)
-        #self.cwndset = list(range(200000,700000,50000))
+        self.cwndset = [34000 * i for i in range(7,12)]  #as CCP does not support rate change well, we pre-defined 5 cwnd as 5 different rates
         self.maxcwnd = self.cwndset[-1]
         self.MAB = MAB.MAB(len(self.cwndset))
         self.action = self.MAB.draw_action()
