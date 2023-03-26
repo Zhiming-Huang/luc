@@ -1,17 +1,17 @@
 # LUC
-LUC is a congestion control algorithm based on swap-regret-minimizing techniques. In our experiments, we implement LUC through Linux kernel 5.4.0 based on the congestion control plane ([CCP](https://ccp-project.github.io/)). With CCP, developers can write congestion control algorithms with Rust or Python in a safe user-space environment as opposed to writing C and a risk of crashing your kernel, and CCP allows the same algorithm implementation to be run through the Linux kernel.
+LUC is a congestion control algorithm based on swap-regret-minimizing techniques. In our experiments, we implement LUC through Linux kernel 5.4.0 based on the congestion control plane ([CCP](https://ccp-project.github.io/)). With CCP, developers can write congestion control algorithms with Rust or Python in a safe user-space environment instead of writing C and risking crashing your kernel. CCP allows the same algorithm implementation to be run through the Linux kernel.
 
 ## Experiment: Emulation on Mininet
-The experiments are based on two tools, i.e., [CCP](https://ccp-project.github.io/) and [Mininet](http://mininet.org/). CCP is used to implement LUC and Mininet is the emulation tool to run experiments.
+The experiments are based on two tools, i.e., [CCP](https://ccp-project.github.io/) and [Mininet](http://mininet.org/). CCP is used to implement LUC, and Mininet is the emulation tool to run experiments.
 Furthermore, we recommend running the experiments on Linux kernel 5.4.0, as the recommended Linux kernel version of [CCP Kernel Datapath](https://github.com/ccp-project/ccp-kernel) is 5.4.0. 
 
-In the paper, we run mininet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.4.0, but BBR2 needs to be compiled and installed.
+In the paper, we run Mninet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.4.0, but BBR2 needs to be compiled and installed.
 
-In the follows, we give the step-by-step guidance on how to run the experiments.
+In the following, we give step-by-step guidance on how to run the experiments.
 
 ### Step 1:  Install BBR2
 There are two ways to install BBR2:
-1. Manullay build and install by following the instructions on https://github.com/google/bbr/blob/v2alpha/README.md.
+1. Manually build and install by following the instructions on https://github.com/google/bbr/blob/v2alpha/README.md.
 
 First, we need to install the tools for compilation:
 
@@ -37,7 +37,7 @@ make deb-pkg
 
 
 
-If you choose the second way, you can run the following commands to replace the kernel (we tested the kernels work for ubuntu 18.04 LTS):
+If you choose the second way, you can run the following commands to replace the kernel (we tested the kernels, which work for ubuntu 18.04 LTS):
 
 ```
 sudo dpkg -i linux-headers-5.4.0-rc6_5.4.0-rc6-2_amd64.deb
@@ -70,11 +70,11 @@ sysctl -p
 
 
 ### Step 2: Install CCP
-The instructions for installing CCP can be found on their website (https://ccp-project.github.io/ccp-guide/setup/index.html). However, when implementing LUC, we found that some APIs are updated but the instructions on website are not updated at the same time. Therefore, we provide an instudction to install CCP as follows:
+The instructions for installing CCP can be found on their website (https://ccp-project.github.io/ccp-guide/setup/index.html). However, when implementing LUC, we found that some APIs are updated, but the instructions on the official website are not updated to date. Therefore, we provide an instruction to install CCP as follows:
 
 1. Install Rust
 `curl https://sh.rustup.rs -sSf | sh -s -- -y -v --default-toolchain nightly`
-2. Compile and run linux kernel module for CCP
+2. Compile and run the Linux kernel module for CCP
 ```
 git clone https://github.com/ccp-project/ccp-kernel.git
 cd ccp-kernel
@@ -82,14 +82,14 @@ git submodule update --init --recursive
 make
 sudo ./ccp_kernel_load ipc=0
 ```
-where ipc=0 is to use netlink sockets. To check whether ccp has been enabled, we can check by the following command:
+where ipc=0 is to use netlink sockets. To check whether CCP has been enabled, we can check by the following command:
 
 ```
 sysctl net.ipv4.tcp_available_congestion_control
 ```
-If you see net.ipv4.tcp_available_congestion_control = reno cubic bbr2 ccp, we have finished the envinronment setup. 
+If you see net.ipv4.tcp_available_congestion_control = reno cubic bbr2 ccp, we have finished the environment setup. 
 
-The ccp-kernel module will report statistics to the user-space ccp algorithms. The user-space ccp algorithm determines a congestion window/rate and pass it to the ccp kernel.
+The CCP-kernel module will report statistics to the user-space CCP algorithms. The user-space CCP algorithm determines a congestion window/rate and passes it to the CCP-kernel.
 
 3. To run python-based CCP algorithms and plot results, we need to install pyportus, cython, numpy, matplotlib, and pandas
 ```
@@ -97,13 +97,13 @@ sudo apt install python3-pip
 sudo pip3 install pyportus numpy cython matplotlib pandas
 ```
 
-if it shows an error message "python setup.py egg_info failed", run the following commands first:
+If it shows an error message "python setup.py egg_info failed", run the following commands first:
 ```
 sudo pip3 install setuptools-rust
 sudo pip3 install --upgrade pip
 ```
 
-4. Then, we can run the LUC algoirhtm by first compiling MAB
+4. Then, we can run the LUC algorithm by first compiling MAB
 
 ```
 python3 setup.py build_ext --inplace
@@ -112,15 +112,15 @@ python3 setup.py build_ext --inplace
 python3 luc.py
 
 ```
-Now, ccp-kernel will report statistics to LUC. LUC will make decisions on the congestion window/rate and pass it back to ccp-kernel.
+Now, ccp-kernel will report statistics to LUC. LUC will decide on the congestion window/rate and pass it back to CCP-kernel.
 
 
 ### Step 3: Install Mininet
-We need to install from source. First, get the source code by
+We need to install it from the source. First, get the source code by
 ```
 git clone https://github.com/mininet/mininet
 ```
-Then, install by using the script
+Then, install it by using the script:
 ```
 cd mininet
 sudo python3 PYTHON=python3 util/install.sh -a
@@ -151,11 +151,11 @@ The results will be saved in the directory of logs. To plot the logs, run the sc
 python3 plot_parkinglot.py
 ```
 
-The figures will be saved as eps in directory of results.
+The figures will be saved as eps in the directory of results.
 
-Before running each experiment, we can use `sudo mn -c` to clear the Mininet envinronment.
+Before running each experiment, we can use `sudo mn -c` to clear the Mininet environment.
 
 ## Experiments with Pantheon
-We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance of LUC with real-world traces. The real-world traces used in our paper can be found in https://github.com/ravinet/mahimahi/tree/master/traces. 
+We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance of LUC with real-world traces. The real-world traces used in our paper can be found at https://github.com/ravinet/mahimahi/tree/master/traces. 
 
-The setup and usage of Patheon can be found in https://github.com/StanfordSNR/pantheon.
+The setup and usage of Patheon can be found at https://github.com/StanfordSNR/pantheon.
