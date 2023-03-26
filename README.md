@@ -77,25 +77,42 @@ The instructions for installing CCP can be found on their website (https://ccp-p
 2. Compile and run linux kernel module for CCP
 ```
 git clone https://github.com/ccp-project/ccp-kernel.git
+cd ccp-kernel
 git submodule update --init --recursive
-cd ccp-kernel && make
+make
 sudo ./ccp_kernel_load ipc=0
 ```
 where ipc=0 is to use netlink sockets. To check whether ccp has been enabled, we can check by the following command:
 
 ```
-cat /proc/sys/net/ipv4/tcp_congestion_control
+sysctl net.ipv4.tcp_available_congestion_control
+```
+If you see net.ipv4.tcp_available_congestion_control = reno cubic bbr2 ccp, we have finished the envinronment setup. 
+
+The ccp-kernel module will report statistics to the user-space ccp algorithms. The user-space ccp algorithm determines a congestion window/rate and pass it to the ccp kernel.
+
+3. To run python-based CCP algorithms and plot results, we need to install pyportus, cython, numpy, matplotlib, and pandas
+```
+sudo apt install python3-pip
+sudo pip3 install pyportus numpy cython matplotlib pandas
 ```
 
-3. To run python-based CCP algorithms, we need to install pyportus, numpy, and matplotlib
+if it shows an error message "python setup.py egg_info failed", run the following commands first:
 ```
-pip install pyportus numpy matplotlib
+sudo pip3 install setuptools-rust
+sudo pip3 install --upgrade pip
 ```
 
-4. Then, we can run the LUC algoirhtm by
+4. Then, we can run the LUC algoirhtm by first compiling MAB
+
+```
+python3 setup.py build_ext --inplace
+```
 ```
 python3 luc.py
+
 ```
+Now, ccp-kernel will report statistics to luc. Luc will make decisions on the congestion window/rate and pass it back to ccp-kernel.
 
 
 ### Step 3: Install Mininet
@@ -106,9 +123,32 @@ git clone https://github.com/mininet/mininet
 Then, install by using the script
 ```
 cd mininet
-bash ./util/install.sh -a
+sudo python3 PYTHON=python3 util/install.sh -a
 ```
 
+
+
+
 ### Step 4: Run the experiments
+1. The dumbell topology
+Run the script dumbell.py by
+```
+sudo python3 dumbell.py
+```
+The results will be saved in the directory of logs. To plot the logs, run the script plot_dumbell.py by
+```
+python3 plot_dumbell.py
+```
 
 
+2. The parkinglot topology
+Run the script parkinglot.py by
+```
+sudo python3 parkinglot.py
+```
+The results will be saved in the directory of logs. To plot the logs, run the script plot_dumbell.py by
+```
+python3 plot_parkinglot.py
+```
+
+The figures will be saved as eps in results.
