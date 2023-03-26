@@ -112,7 +112,7 @@ python3 setup.py build_ext --inplace
 python3 luc.py
 
 ```
-Now, ccp-kernel will report statistics to luc. Luc will make decisions on the congestion window/rate and pass it back to ccp-kernel.
+Now, ccp-kernel will report statistics to LUC. LUC will make decisions on the congestion window/rate and pass it back to ccp-kernel.
 
 
 ### Step 3: Install Mininet
@@ -152,3 +152,10 @@ python3 plot_parkinglot.py
 ```
 
 The figures will be saved as eps in results.
+
+
+
+## Experiments with Pantheon
+We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance of LUC with real-world traces. The real-world traces used in our paper can be found in https://github.com/ravinet/mahimahi/tree/master/traces. 
+
+The setup and usage of Patheon can be found in https://github.com/StanfordSNR/pantheon.
