@@ -33,7 +33,7 @@ make deb-pkg
 ```
 
 
-2. Install the compiled kernel that already installed BBRv2 (we provide a binary package for Debian/Ubuntu under the build directory of this repo). 
+2. Install the compiled kernel that already installed BBRv2 (we provide binary packages compiled with BBR2 for Debian/Ubuntu under the build directory of this repo). 
 
 
 
@@ -59,7 +59,7 @@ Save the changes and update grub by
 sudo update-grub
 ```
 
-Then restart the system. When comes to the grub menu, select the Advanced options for Ubuntu and then select the corresponding kernel to boot the system.
+Then restart the system.  In the grub menu, select the Advanced options for Ubuntu and then select the corresponding kernel to boot the system.
 
 Then, enable BBR by the following commands:
 ```
@@ -151,9 +151,9 @@ The results will be saved in the directory of logs. To plot the logs, run the sc
 python3 plot_parkinglot.py
 ```
 
-The figures will be saved as eps in results.
+The figures will be saved as eps in directory of results.
 
-
+Before running each experiment, we can use `sudo mn -c` to clear the Mininet envinronment.
 
 ## Experiments with Pantheon
 We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance of LUC with real-world traces. The real-world traces used in our paper can be found in https://github.com/ravinet/mahimahi/tree/master/traces. 
