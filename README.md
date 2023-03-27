@@ -1,13 +1,13 @@
 # LUC
-LUC is a congestion control algorithm based on swap-regret-minimizing techniques. In our experiments, we implement LUC through Linux kernel 5.4.0 based on the congestion control plane ([CCP](https://ccp-project.github.io/)). With CCP, developers can write congestion control algorithms with Rust or Python in a safe user-space environment instead of writing C and risking crashing your kernel. CCP allows the same algorithm implementation to be run through the Linux kernel.
+LUC is a congestion control algorithm based on swap-regret-minimizing techniques. In our experiments, we implement LUC through Linux kernel 5.4.0 based on the congestion control plane ([CCP](https://ccp-project.github.io/)). With CCP, developers can write congestion control algorithms with Rust or Python in a safe user-space environment instead of writing C and risking crashing your kernel. CCP has two main entities, one is the CCP-kernel module, and the other is the user-space CCP algorithm. LUC is implemented as the user-space CCP algorithm, which inputs the statistics from CCP-kernel and outputs the congestion window/rates back to the kernel.
 
 ## Experiment: Emulation on Mininet
 The experiments are based on two tools, i.e., [CCP](https://ccp-project.github.io/) and [Mininet](http://mininet.org/). CCP is used to implement LUC, and Mininet is the emulation tool to run experiments.
 Furthermore, we recommend running the experiments on Linux kernel 5.4.0, as the recommended Linux kernel version of [CCP Kernel Datapath](https://github.com/ccp-project/ccp-kernel) is 5.4.0. 
 
-In the paper, we run Mninet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.4.0, but BBR2 needs to be compiled and installed.
+In the paper, we run Mninet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.4.0. BBR2 is not included in the Linux kernel and needs to be compiled and installed.
 
-In the following, we give step-by-step guidance on how to run the experiments.
+In the following, we give step-by-step instructions on how to run the experiments.
 
 ### Step 1:  Install BBR2
 There are two ways to install BBR2:
@@ -20,31 +20,31 @@ apt install -y build-essential libncurses5-dev git
 apt -y build-dep linux
 ```
 
-Then, download bbr2 and compile it by
+Then, download BBR2 and compile it by
 ```
 git clone -o google-bbr -b v2alpha  https://github.com/google/bbr.git
 cd bbr
 make menuconfig
 ```
-Networking support ---> Networking options ---> TCP: advanced congestion control ---> BBR2 TCP (M)
+Then, go to Networking support ---> Networking options ---> TCP: advanced congestion control ---> BBR2 TCP (M). Save and exit. Next, we start compiling by
 
 ```
 make deb-pkg
 ```
 
 
-2. Install the compiled kernel that already installed BBRv2 (we provide binary packages compiled with BBR2 for Debian/Ubuntu under the build directory of this repo). 
+2. Download the compiled kernels that have already installed BBRv2 (we provide binary packages with BBR2 compiled for Debian/Ubuntu under this repo's "build" folder). 
 
 
 
-If you choose the second way, you can run the following commands to replace the kernel (we tested the kernels, which work for ubuntu 18.04 LTS):
+If you choose the second way, you can run the following commands to replace the kernel (we have tested that the following kernel works for ubuntu 18.04 LTS):
 
 ```
 sudo dpkg -i linux-headers-5.4.0-rc6_5.4.0-rc6-2_amd64.deb
 sudo dpkg -i linux-image-5.4.0-rc6_5.4.0-rc6-2_amd64.deb
 ```
 
-Next, we enable the grub menu for selecting kernels. Edit the file /etc/default/grub, and find the following two lines:
+Next, enable the Grub menu for switching kernels. Edit the file /etc/default/grub, and find the following two lines:
 ```
 GRUB_TIMEOUT_STYLE=hidden
 GRUB_TIMEOUT=0
@@ -59,9 +59,9 @@ Save the changes and update grub by
 sudo update-grub
 ```
 
-Then restart the system.  In the grub menu, select the Advanced options for Ubuntu and then select the corresponding kernel to boot the system.
+Then restart the system.  In the Grub menu, select the Advanced options for Ubuntu and then select the corresponding kernel to boot the system.
 
-Then, enable BBR by the following commands:
+Next, enable BBR2 by the following commands:
 ```
 echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control = bbr2" >> /etc/sysctl.conf
@@ -87,9 +87,9 @@ where ipc=0 is to use netlink sockets. To check whether CCP has been enabled, we
 ```
 sysctl net.ipv4.tcp_available_congestion_control
 ```
-If you see net.ipv4.tcp_available_congestion_control = reno cubic bbr2 ccp, we have finished the environment setup. 
+If you see "net.ipv4.tcp_available_congestion_control = reno cubic bbr2 ccp", the environment setup for both BBR2 and CCP-kernel is successful. 
 
-The CCP-kernel module will report statistics to the user-space CCP algorithms. The user-space CCP algorithm determines a congestion window/rate and passes it to the CCP-kernel.
+The CCP-kernel module will report statistics to the user-space CCP algorithms. The user-space CCP algorithm determines a congestion window/rate and passes it back to the CCP-kernel.
 
 3. To run python-based CCP algorithms and plot results, we need to install pyportus, cython, numpy, matplotlib, and pandas
 ```
@@ -103,16 +103,16 @@ sudo pip3 install setuptools-rust
 sudo pip3 install --upgrade pip
 ```
 
-4. Then, we can run the LUC algorithm by first compiling MAB
+4. Then, we can run the LUC algorithm by first compiling MAB and running LUC with sudo
 
 ```
 python3 setup.py build_ext --inplace
 ```
 ```
-python3 luc.py
+sudo python3 luc.py
 
 ```
-Now, ccp-kernel will report statistics to LUC. LUC will decide on the congestion window/rate and pass it back to CCP-kernel.
+Now, CCP-kernel will report statistics to LUC. LUC will decide on the congestion window/rate and pass it back to CCP-kernel.
 
 
 ### Step 3: Install Mininet
@@ -135,7 +135,7 @@ Run the script dumbell.py by
 ```
 sudo python3 dumbell.py
 ```
-The results will be saved in the directory of logs. To plot the logs, run the script plot_dumbell.py by
+The results will be saved in the ''logs'' folder. To plot the logs, run the script plot_dumbell.py by
 ```
 python3 plot_dumbell.py
 ```
@@ -146,12 +146,12 @@ Run the script parkinglot.py by
 ```
 sudo python3 parkinglot.py
 ```
-The results will be saved in the directory of logs. To plot the logs, run the script plot_dumbell.py by
+The results will be saved in the ''logs'' folder. To plot the logs, run the script plot_dumbell.py by
 ```
 python3 plot_parkinglot.py
 ```
 
-The figures will be saved as eps in the directory of results.
+The figures will be saved as eps in the ''results'' folder.
 
 Before running each experiment, we can use `sudo mn -c` to clear the Mininet environment.
 
