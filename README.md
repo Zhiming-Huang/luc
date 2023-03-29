@@ -61,13 +61,12 @@ sudo update-grub
 
 Then restart the system.  In the Grub menu, select the Advanced options for Ubuntu and then select the corresponding kernel to boot the system.
 
-Next, enable BBR2 by the following commands:
+Next, add the following two lines to /etc/sysctl.conf:
 ```
-echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
-echo "net.ipv4.tcp_congestion_control = bbr2" >> /etc/sysctl.conf
-sysctl -p
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr2
 ```
-
+Make the two lines effective by `sudo sysctl -p`.
 
 ### Step 2: Install CCP
 The instructions for installing CCP can be found on their website (https://ccp-project.github.io/ccp-guide/setup/index.html). However, when implementing LUC, we found that some APIs are updated, but the instructions on the official website are not updated to date. Therefore, we provide an instruction to install CCP as follows:
