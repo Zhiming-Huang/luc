@@ -155,6 +155,30 @@ The figures will be saved as eps in the ''results'' folder.
 Before running each experiment, we can use `sudo mn -c` to clear the Mininet environment.
 
 ## Experiments with Pantheon
+To run Pantheon, Python 2 is requried, and please ensure the default python environment is python 2.
+
 We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance of LUC with real-world traces. The real-world traces used in our paper can be found at https://github.com/ravinet/mahimahi/tree/master/traces. 
 
-The setup and usage of Patheon can be found at https://github.com/StanfordSNR/pantheon.
+The setup and usage of Patheon can be found at https://github.com/StanfordSNR/pantheon. 
+
+As the offcial source code is end of support, we give a convenient instruction here on playing luc on Pantheon with a comparison to CUBIC, BBR2 and Vivace. We have configured those four algorithm in our forked repo for Pantheon with real-world traces at https://github.com/Zhiming-Huang/pantheon.
+
+
+To install dependencies, go to folder pantheon/tools, and run install_deps.sh.
+
+Once installed, we can set up schemes by
+```
+src/experiments/setup.py --setup --all
+```
+
+Go to folder src/experiments/, and  run locally with real-world traces:
+```
+src/experiments/test.py local --all --uplink-trace Verizon-LTE-driving.up --downlink-trace Verizon-LTE-driving.down --run--times 5 
+```
+
+To visualize the results, go to folder src/analysis, and run
+```
+python ./analyze.py
+```
+
+The results will be saved in the folder src/experiments/data.
