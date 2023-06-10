@@ -161,7 +161,7 @@ We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance 
 
 The setup and usage of Patheon can be found at https://github.com/StanfordSNR/pantheon. 
 
-As the offcial source code is end of support, we give a convenient instruction here on playing luc on Pantheon with a comparison to CUBIC, BBR2 and Vivace. We have configured those four algorithm in our forked repo for Pantheon with real-world traces at https://github.com/Zhiming-Huang/pantheon.
+As the offcial source code is end of support, we give a convenient instruction here on playing luc on Pantheon with a comparison to CUBIC, BBR2 and Vivace. We have configured those four algorithms in our forked repo for Pantheon with real-world traces at https://github.com/Zhiming-Huang/pantheon.
 
 
 To install dependencies, go to folder pantheon/tools, and run install_deps.sh.
