@@ -21,6 +21,7 @@ class MAB:
         self.meta_dis = np.ones([self.K, self.K]) / self.K
         self.L = np.zeros([self.K, self.K])
         self.p = np.ones(self.K)/self.K
+        self.beta = (np.log(K)/self.t)
 
     def __Markov_Steady_State_Prop(self):
         Q = np.mat(self.meta_dis)
@@ -34,11 +35,15 @@ class MAB:
 
     def update_dist(self, action, r):
         eta = (np.log(self.K) / self.t) ** 0.5
-        self.L[:, action] += (1 - r) * (self.p / self.p[action])
+        beta = (np.log(K)/self.t)**0.5
+        lambdat = 0.5*self.K*(np.log(K)/self.t)**0.5
+        if lambdat >= 0.5:
+            lambdat = 0.5
+        self.L[:, action] += (r+beta) * (self.p / self.p[action])
         for i in range(self.K):
-            self.meta_dis[i, :] = np.exp(-eta * self.L[i, :]) / np.sum(
-                np.exp(-eta * self.L[i, :])
-            )
+            self.meta_dis[i, :] = (1-lambdat)*np.exp(eta * self.L[i, :]) / np.sum(
+                np.exp(eta * self.L[i, :])
+            ) + lambdat / self.K
         self.__Markov_Steady_State_Prop()
         self.t += 1
 
