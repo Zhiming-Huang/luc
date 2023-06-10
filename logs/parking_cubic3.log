@@ -1,68 +1,68 @@
 ------------------------------------------------------------
-Client connecting to 10.0.0.5, TCP port 5002 with pid 15193
+Client connecting to 10.0.0.5, TCP port 5002 with pid 23570
 Write buffer size:  128 KByte
 TCP window size: 85.3 KByte (default)
 ------------------------------------------------------------
-[  3] local 10.0.0.4 port 45842 connected with 10.0.0.5 port 5002
+[  3] local 10.0.0.4 port 42354 connected with 10.0.0.5 port 5002
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 0.00-1.00 sec  3.12 MBytes  26.2 Mbits/sec  25/0          0      335K/143369 us
+[  3] 0.00-1.00 sec  2.00 MBytes  16.8 Mbits/sec  16/0          0      149K/64119 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 1.00-2.00 sec  5.00 MBytes  41.9 Mbits/sec  40/0          0      548K/127968 us
+[  3] 1.00-2.00 sec  2.75 MBytes  23.1 Mbits/sec  22/0          0      274K/86784 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 2.00-3.00 sec  4.75 MBytes  39.8 Mbits/sec  38/0         21      315K/77050 us
+[  3] 2.00-3.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          4      265K/82031 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 3.00-4.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      336K/81916 us
+[  3] 3.00-4.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      305K/89510 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 4.00-5.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      350K/86131 us
+[  3] 4.00-5.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      329K/95684 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 5.00-6.00 sec  4.75 MBytes  39.8 Mbits/sec  38/0          0      357K/89305 us
+[  3] 5.00-6.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      343K/99528 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 6.00-7.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      357K/89617 us
+[  3] 6.00-7.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      347K/97235 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 7.00-8.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      357K/89337 us
+[  3] 7.00-8.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      347K/100304 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 8.00-9.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      359K/92683 us
+[  3] 8.00-9.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      347K/110417 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 9.00-10.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      366K/96707 us
+[  3] 9.00-10.00 sec  2.75 MBytes  23.1 Mbits/sec  22/0          0      350K/111188 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 10.00-11.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      380K/102501 us
+[  3] 10.00-11.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          2      270K/78118 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 11.00-12.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          4      282K/93099 us
+[  3] 11.00-12.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      311K/81511 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 12.00-13.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      336K/98790 us
+[  3] 12.00-13.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      333K/90650 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 13.00-14.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0         22      261K/71054 us
+[  3] 13.00-14.00 sec  4.25 MBytes  35.7 Mbits/sec  34/0          0      349K/91501 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 14.00-15.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      287K/106293 us
+[  3] 14.00-15.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      353K/93347 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 15.00-16.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      301K/90031 us
+[  3] 15.00-16.00 sec  3.38 MBytes  28.3 Mbits/sec  27/0          0      353K/94830 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 16.00-17.00 sec  2.25 MBytes  18.9 Mbits/sec  18/0          0      305K/87471 us
+[  3] 16.00-17.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      353K/91909 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 17.00-18.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      306K/91393 us
+[  3] 17.00-18.00 sec  4.12 MBytes  34.6 Mbits/sec  33/0          0      356K/97317 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 18.00-19.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      306K/87304 us
+[  3] 18.00-19.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          0      364K/106026 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 19.00-20.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      308K/86467 us
+[  3] 19.00-20.00 sec  4.00 MBytes  33.6 Mbits/sec  32/0          6      291K/80088 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 20.00-21.00 sec  3.53 MBytes  29.7 Mbits/sec  29/0          4      230K/233647 us
+[  3] 20.00-21.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          0      322K/84859 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 21.00-22.00 sec  1.62 MBytes  13.6 Mbits/sec  14/0          0      254K/174068 us
+[  3] 21.00-22.00 sec  3.75 MBytes  31.5 Mbits/sec  30/0          0      347K/89993 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 22.00-23.00 sec  1.68 MBytes  14.1 Mbits/sec  14/0          0      284K/80471 us
+[  3] 22.00-23.00 sec  3.75 MBytes  31.5 Mbits/sec  30/0          0      363K/94730 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 23.00-24.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      304K/85624 us
+[  3] 23.00-24.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      369K/95254 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 24.00-25.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      313K/87441 us
+[  3] 24.00-25.00 sec  3.75 MBytes  31.5 Mbits/sec  30/0          0      369K/98234 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 25.00-26.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      315K/89671 us
+[  3] 25.00-26.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          4      274K/98113 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 26.00-27.00 sec  3.62 MBytes  30.4 Mbits/sec  29/0          0      315K/88389 us
+[  3] 26.00-27.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          0      318K/94978 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 27.00-28.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      316K/91398 us
+[  3] 27.00-28.00 sec  3.75 MBytes  31.5 Mbits/sec  30/0          0      349K/102128 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 28.00-29.00 sec  3.50 MBytes  29.4 Mbits/sec  28/0          0      322K/98697 us
+[  3] 28.00-29.00 sec  3.00 MBytes  25.2 Mbits/sec  24/0          0      362K/120201 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 29.00-30.00 sec  2.38 MBytes  19.9 Mbits/sec  19/0          0      332K/104824 us
+[  3] 29.00-30.00 sec  2.88 MBytes  24.1 Mbits/sec  23/0          0      369K/119207 us
 [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry    Cwnd/RTT
-[  3] 0.00-30.10 sec   103 MBytes  28.8 Mbits/sec  830/0         51      332K/104824 us
+[  3] 0.00-30.20 sec   101 MBytes  28.1 Mbits/sec  808/0         16      369K/119207 us

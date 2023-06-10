@@ -35,8 +35,8 @@ class MAB:
 
     def update_dist(self, action, r):
         eta = (np.log(self.K) / self.t) ** 0.5
-        beta = (np.log(K)/self.t)**0.5
-        lambdat = 0.5*self.K*(np.log(K)/self.t)**0.5
+        beta = (np.log(self.K)/self.t)**0.5
+        lambdat = 0.5*self.K*(np.log(self.K)/self.t)**0.5
         if lambdat >= 0.5:
             lambdat = 0.5
         self.L[:, action] += (r+beta) * (self.p / self.p[action])
