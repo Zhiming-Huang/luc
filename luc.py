@@ -12,7 +12,7 @@ class LUCFlow:
         self.rttbefore = 0
         self.cwndset = [34000 * i for i in range(7,12)]  #as CCP does not support rate change well, we pre-defined 5 cwnd as 5 different rates
         self.maxcwnd = self.cwndset[-1]
-        self.MAB = MAB.MAB(len(self.cwndset))
+        self.MAB = MAB.MAB(len(self.cwndset),2)
         self.action = self.MAB.draw_action()
         self.cwnd = self.cwndset[self.action]
        
