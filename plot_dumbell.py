@@ -51,7 +51,7 @@ dfcubic2 = read_iperf('./logs/cubic2.log')
 ###################Throughput  1################################
 #############plot for h1
 fig, ax = plt.subplots()
-ax.plot(dfccp1['throughput'].ewm(com=10).mean(), '-', label = 'LUC')
+ax.plot(dfccp1['throughput'].ewm(com=10).mean(), '-', label = 'OMD-LCE-IX')
 ax.plot(dfbbr1['throughput'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic1['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 ax.set_xlabel('Time (s)', fontsize=20)
@@ -60,12 +60,12 @@ plt.yticks(fontsize=20)
 ax.set_ylabel('Throughput (Mbps)', fontsize=20)
 ax.set_ylim([0,40])
 ax.grid(True)
-ax.legend(fontsize=20, loc = 'upper right')
+ax.legend(fontsize=20)
 fig.savefig('./results/homoflow_thru_h1.eps', format='eps', bbox_inches='tight',dpi=fig.dpi,pad_inches=0.0)
     
 ############plot for h2
 fig, ax = plt.subplots()
-ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'LUC')
+ax.plot(dfccp2['throughput'].ewm(com=10).mean(), '-',  label = 'OMD-LCE-IX')
 ax.plot(dfbbr2['throughput'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic2['throughput'].ewm(com=10).mean(), '--', label = 'CUBIC')
 plt.xticks(fontsize=20)
@@ -81,7 +81,7 @@ fig.savefig('./results/homoflow_thru_h2.eps', format='eps', bbox_inches='tight',
 ################### RTT  1 ################################
 #############plot for h1
 fig, ax = plt.subplots()
-ax.plot(dfccp1['rtt'].ewm(com=10).mean(), '-', label = 'LUC')
+ax.plot(dfccp1['rtt'].ewm(com=10).mean(), '-', label = 'OMD-LCE-IX')
 ax.plot(dfbbr1['rtt'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic1['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
 plt.xticks(fontsize=20)
@@ -95,7 +95,7 @@ fig.savefig('./results/homoflow_rtt_h1.eps', format='eps', bbox_inches='tight',d
     
 ############plot for h2
 fig, ax = plt.subplots()
-ax.plot(dfccp2['rtt'].ewm(com=10).mean(), '-',  label = 'LUC')
+ax.plot(dfccp2['rtt'].ewm(com=10).mean(), '-',  label = 'OMD-LCE-IX')
 ax.plot(dfbbr2['rtt'].ewm(com=10).mean(), '-.', label = 'BBR2')
 ax.plot(dfcubic2['rtt'].ewm(com=10).mean(), '--', label = 'CUBIC')
 plt.xticks(fontsize=20)
@@ -118,7 +118,7 @@ dfcubic2bbr1 = read_iperf('./logs/cubic2bbr1.log')
 ###################Throughput  2################################
 #############plot for ccp and bbr ######
 fig, ax = plt.subplots()
-ax.plot(dfccp1bbr2['throughput'].ewm(com=10).mean(), '-', label = 'h1 (LUC)', color = 'tab:blue')
+ax.plot(dfccp1bbr2['throughput'].ewm(com=10).mean(), '-', label = 'h1 (OMD-LCE-IX)', color = 'tab:blue')
 ax.plot(dfbbr2ccp1['throughput'].ewm(com=10).mean(), '-.', label = 'h2 (BBR2)',color = 'tab:orange')
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
@@ -130,7 +130,7 @@ fig.savefig('./results/heteflow_thru_ccpbbr.eps', format='eps', bbox_inches='tig
     
 #############plot for ccp and cubic ######
 fig, ax = plt.subplots()
-ax.plot(dfccp1cubic2['throughput'].ewm(com=10).mean(), '-', label = 'h1 (LUC)', color = 'tab:blue')
+ax.plot(dfccp1cubic2['throughput'].ewm(com=10).mean(), '-', label = 'h1 (OMD-LCE-IX)', color = 'tab:blue')
 ax.plot(dfcubic2ccp1['throughput'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
@@ -156,7 +156,7 @@ fig.savefig('./results/heteflow_thru_bbrcubic.eps', format='eps', bbox_inches='t
 ###################RTT  2################################
 #############plot for ccp and bbr ######
 fig, ax = plt.subplots()
-ax.plot(dfccp1bbr2['rtt'].ewm(com=10).mean(), '-', label = 'h1 (LUC)',color = 'tab:blue')
+ax.plot(dfccp1bbr2['rtt'].ewm(com=10).mean(), '-', label = 'h1 (OMD-LCE-IX)',color = 'tab:blue')
 ax.plot(dfbbr2ccp1['rtt'].ewm(com=10).mean(), '-.', label = 'h2 (BBR2)', color = 'tab:orange')
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
@@ -168,7 +168,7 @@ fig.savefig('./results/heteflow_rtt_ccpbbr.eps', format='eps', bbox_inches='tigh
     
 #############plot for ccp and cubic ######
 fig, ax = plt.subplots()
-ax.plot(dfccp1cubic2['rtt'].ewm(com=10).mean(), '-', label = 'h1 (LUC)', color = 'tab:blue')
+ax.plot(dfccp1cubic2['rtt'].ewm(com=10).mean(), '-', label = 'h1 (OMD-LCE-IX)', color = 'tab:blue')
 ax.plot(dfcubic2ccp1['rtt'].ewm(com=10).mean(), '--', label = 'h2 (CUBIC)', color ='tab:green')
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
