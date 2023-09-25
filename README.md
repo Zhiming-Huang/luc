@@ -93,7 +93,7 @@ The CCP-kernel module will report statistics to the user-space CCP algorithms. T
 3. To run python-based CCP algorithms and plot results, we need to install pyportus, cython, numpy, matplotlib, and pandas
 ```
 sudo apt install python3-pip
-sudo pip3 install pyportus numpy cython matplotlib pandas
+pip3 install pyportus numpy cython matplotlib pandas
 ```
 
 If it shows an error message "python setup.py egg_info failed", run the following commands first:
