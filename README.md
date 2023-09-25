@@ -122,7 +122,7 @@ git clone https://github.com/mininet/mininet
 Then, install it by using the script:
 ```
 cd mininet
-sudo python3 PYTHON=python3 util/install.sh -a
+sudo PYTHON=python3 util/install.sh -a
 ```
 
 
