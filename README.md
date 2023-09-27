@@ -173,7 +173,7 @@ src/experiments/setup.py --setup --all
 
 Go to folder src/experiments/, and  run locally with real-world traces:
 ```
-src/experiments/test.py local --all --uplink-trace Verizon-LTE-driving.up --downlink-trace Verizon-LTE-driving.down --run--times 5 
+src/experiments/test.py local --all --uplink-trace Verizon-LTE-driving.up --downlink-trace Verizon-LTE-driving.down --run-times 5 
 ```
 
 To visualize the results, go to folder src/analysis, and run
